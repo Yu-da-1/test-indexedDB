@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "fake-indexeddb": "^6.0.0",
     "idb": "^8.0.0"
   }
 }

@@ -1,6 +1,7 @@
 // ECDSAの鍵をgenerateKeyモジュールを使って生成
+const { setupIndexedDB, saveKeyToIndexedDB, getKeyFromIndexedDB } = require("./db");
+
 // false or trueで非エクスポートするかどうかを設定可能
-// todo: 任意の鍵をNon-exportableにする実装
 async function generateNonExtractableKey() {
     const keyPair = await crypto.subtle.generateKey(
         {
@@ -30,4 +31,17 @@ async function generateSignature(keyPair, data) {
     return signature;
 }
 
-module.exports = {generateNonExtractableKey, generateSignature };
+async function saveGenerateKey(key) {
+    const db = await setupIndexedDB();
+    await saveKeyToIndexedDB(db, key);
+    console.log('Key saved to IndexedDB');
+}
+
+async function loadKeyFromDB(id) {
+    const db = await setupIndexedDB();
+    const storedKey = await getKeyFromIndexedDB(db, id);
+    console.log('Key loaded from IndexedDB:', storedKey);
+    return storedKey;
+}
+
+module.exports = {generateNonExtractableKey, generateSignature, saveGenerateKey, loadKeyFromDB };
