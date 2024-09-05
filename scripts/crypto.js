@@ -1,9 +1,7 @@
-// ECDSAの鍵をgenerateKeyモジュールを使って生成
-const { error } = require("console");
-const { setupIndexedDB, saveKeyToIndexedDB, getKeyFromIndexedDB } = require("./db");
+import { setupIndexedDB, saveKeyToIndexedDB, getKeyFromIndexedDB } from './db.js';
 
 // false or trueで非エクスポートするかどうかを設定可能
-async function generateNonExtractableKey() {
+export async function generateNonExtractableKey() {
     const keyPair = await crypto.subtle.generateKey(
         {
             name: "ECDSA",
@@ -18,7 +16,7 @@ async function generateNonExtractableKey() {
 }
 
 // 署名の生成
-async function generateSignature(keyPair, data) {
+export async function generateSignature(keyPair, data) {
     const encoder = new TextEncoder();
     const encodedData = encoder.encode(data);
     const signature = await crypto.subtle.sign(
@@ -33,14 +31,14 @@ async function generateSignature(keyPair, data) {
 }
 
 // 鍵の保存
-async function saveGenerateKey(key) {
+export async function saveGenerateKey(key) {
     const db = await setupIndexedDB();
     await saveKeyToIndexedDB(db, key);
     console.log('Key saved to IndexedDB');
 }
 
 // 鍵の読み込み
-async function loadKeyFromDB(id) {
+export async function loadKeyFromDB(id) {
     const db = await setupIndexedDB();
     const storedKey = await getKeyFromIndexedDB(db, id);
     //console.log('Key loaded from IndexedDB:', storedKey);
@@ -48,7 +46,7 @@ async function loadKeyFromDB(id) {
 }
 
 // 署名の検証
-async function verifySignature(exportedPublicKey, signature, message) {
+export async function verifySignature(exportedPublicKey, signature, message) {
     try {
         // publickeyのインポート
         const importPublicKey = await crypto.subtle.importKey(
@@ -78,5 +76,3 @@ async function verifySignature(exportedPublicKey, signature, message) {
         throw error;
     }
 }
-
-module.exports = {generateNonExtractableKey, generateSignature, saveGenerateKey, loadKeyFromDB, verifySignature };
