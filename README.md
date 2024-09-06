@@ -45,6 +45,10 @@ IndexedDB get request success: {key: {…}, id: 1}
 Used Public Key (Base64): MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdqpfWWJ2YbrE8dyATXRxL4Q2ql54JEUP47018hTYnrFg5qBi75kPVIyxoH4fX1RQNC4vT5jSqWihb/YdJ8RYeA==
 Signature (Base64): LJDD8En1X9AGuotfB3o+BdAbz5Xi+f6RMM7uUV8JjiLwnniNONrO8sIm1Ddeo2BLeu45Rths0dqH6PvscKlsNg==
 ```
+- すでに`id:1`の設定をコード内で行なっているため、コードを実行すると1の鍵を呼び出される
+- 任意のメッセージに対して署名可能
+
+  
 署名の検証ボタン
 ```
 Signature is valid: true
